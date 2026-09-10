@@ -1,0 +1,673 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0F6E43">
+<title>ขายหน้าร้าน — ร้านขายยา</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --paper:#F6F7F4;
+  --card:#FFFFFF;
+  --ink:#17241D;
+  --soft:#5C6B62;
+  --faint:#8D9A92;
+  --green:#0F6E43;
+  --green-dk:#0A4E30;
+  --green-tint:#E8F1EB;
+  --rule:#DCE2DB;
+  --clay:#A8422F;
+  --r:4px;
+}
+
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+
+html{-webkit-text-size-adjust:100%}
+
+body{
+  background:var(--paper);
+  color:var(--ink);
+  font-family:"IBM Plex Sans Thai",system-ui,sans-serif;
+  font-size:16px;
+  line-height:1.5;
+  font-variant-numeric:tabular-nums;
+  padding:0 18px;
+  overflow-x:hidden;
+}
+
+.num{font-variant-numeric:tabular-nums;font-feature-settings:"tnum"}
+
+.wrap{max-width:1180px;margin:0 auto}
+
+button{font:inherit;cursor:pointer;border-radius:var(--r);border:1px solid transparent;color:inherit}
+input{font:inherit;color:var(--ink);font-variant-numeric:tabular-nums}
+input:focus-visible,button:focus-visible{outline:2px solid var(--green);outline-offset:1px}
+
+/* ── หัวหน้า ── */
+header{
+  display:flex;align-items:center;justify-content:space-between;
+  gap:14px;flex-wrap:wrap;
+  padding:20px 0 16px;
+  border-bottom:2px solid var(--ink);
+}
+.brand{display:flex;align-items:center;gap:10px}
+.cross{
+  width:20px;height:20px;flex:none;background:var(--green);
+  clip-path:polygon(37% 0,63% 0,63% 37%,100% 37%,100% 63%,63% 63%,63% 100%,37% 100%,37% 63%,0 63%,0 37%,37% 37%);
+}
+h1{font-size:19px;font-weight:600}
+.link{color:var(--soft);font-size:15px;text-decoration:none;border-bottom:1px solid var(--rule)}
+.link:hover{color:var(--green);border-color:var(--green)}
+
+/* ── โครง ── */
+.grid{display:grid;grid-template-columns:1fr 372px;gap:28px;align-items:start;padding-top:20px}
+@media (max-width:900px){.grid{grid-template-columns:1fr;gap:0}}
+
+/* ── ค้นหา + หมวด ── */
+.search{
+  width:100%;background:var(--card);border:1px solid var(--rule);
+  border-radius:var(--r);padding:12px 14px;margin-bottom:12px;
+}
+
+.tabs{display:flex;gap:7px;overflow-x:auto;padding-bottom:12px;scrollbar-width:none}
+.tabs::-webkit-scrollbar{display:none}
+.tab{
+  background:var(--card);border:1px solid var(--rule);color:var(--soft);
+  padding:7px 14px;font-size:15px;white-space:nowrap;flex:none;
+}
+.tab[aria-pressed="true"]{background:var(--ink);border-color:var(--ink);color:#fff;font-weight:500}
+
+/* ── ตารางสินค้า ── */
+.tiles{display:grid;grid-template-columns:repeat(auto-fill,minmax(158px,1fr));gap:10px}
+
+.tile{
+  position:relative;background:var(--card);border:1px solid var(--rule);
+  text-align:left;padding:14px;min-height:82px;
+  display:flex;flex-direction:column;justify-content:space-between;gap:6px;
+}
+.tile:hover{border-color:var(--green)}
+.tile:active{background:var(--green-tint)}
+.tile.on{border-color:var(--green);background:var(--green-tint)}
+.tile .n{font-size:15px;font-weight:500;line-height:1.35}
+.tile .p{font-size:15px;color:var(--soft)}
+
+.badge{
+  position:absolute;top:-8px;right:-8px;min-width:26px;height:26px;
+  background:var(--green);color:#fff;border-radius:13px;
+  font-size:14px;font-weight:600;display:grid;place-items:center;padding:0 7px;
+}
+
+.custom{border-style:dashed;color:var(--soft);align-items:center;justify-content:center;text-align:center}
+
+/* ── บิล ── */
+.bill{
+  background:var(--card);border:1px solid var(--rule);border-radius:var(--r);
+  padding:18px;position:sticky;top:18px;
+}
+
+h2{font-size:15px;font-weight:600;color:var(--soft);margin-bottom:12px}
+
+.lines{list-style:none;max-height:34vh;overflow-y:auto;margin-bottom:6px}
+
+.line{
+  display:grid;grid-template-columns:1fr auto;gap:4px 10px;
+  padding:11px 0;border-bottom:1px solid var(--rule);
+}
+.line .n{font-size:15px;font-weight:500}
+.line .a{font-size:15px;font-weight:600;text-align:right}
+.line .ctl{display:flex;align-items:center;gap:8px;color:var(--faint);font-size:14px}
+
+.step{
+  width:30px;height:30px;background:var(--paper);border:1px solid var(--rule);
+  font-size:18px;line-height:1;display:grid;place-items:center;color:var(--ink);
+}
+.step:hover{border-color:var(--green);color:var(--green)}
+.qty{min-width:26px;text-align:center;font-size:15px;color:var(--ink);font-weight:500}
+.line .rm{margin-left:auto;background:none;border:none;color:var(--faint);font-size:17px;padding:2px 5px}
+.line .rm:hover{color:var(--clay)}
+
+.empty{color:var(--faint);font-size:15px;text-align:center;padding:26px 0}
+
+/* ── สรุปยอด ── */
+.sum{border-top:2px solid var(--ink);margin-top:8px;padding-top:12px}
+
+.srow{display:flex;justify-content:space-between;align-items:baseline;padding:4px 0;color:var(--soft);font-size:15px}
+.srow.big{padding-top:8px}
+.srow.big .k{color:var(--ink);font-size:16px}
+.srow.big .v{font-size:32px;font-weight:700;letter-spacing:-0.02em}
+
+.disc{
+  width:92px;text-align:right;background:var(--paper);
+  border:1px solid var(--rule);border-radius:var(--r);padding:5px 9px;font-size:15px;
+}
+
+/* ── รับเงิน ── */
+.pay{border-top:1px dashed var(--rule);margin-top:14px;padding-top:14px}
+
+.cash-row{display:flex;gap:8px;align-items:center;margin-bottom:9px}
+.cash{
+  flex:1;background:var(--paper);border:1px solid var(--rule);
+  border-radius:var(--r);padding:11px 13px;font-size:17px;text-align:right;
+}
+
+.notes{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:12px}
+.note-btn{background:var(--card);border:1px solid var(--rule);padding:7px 13px;font-size:15px;color:var(--soft)}
+.note-btn:hover{border-color:var(--green);color:var(--green)}
+
+.change{
+  display:flex;justify-content:space-between;align-items:baseline;
+  background:var(--green-tint);border-radius:var(--r);padding:12px 14px;margin-bottom:12px;
+}
+.change .k{font-size:15px;color:var(--green-dk)}
+.change .v{font-size:30px;font-weight:700;color:var(--green-dk);letter-spacing:-0.02em}
+.change.short{background:#FBEDE9}
+.change.short .k,.change.short .v{color:#7A2E1F}
+
+.done{
+  width:100%;background:var(--green);color:#fff;border:none;
+  padding:15px;font-size:18px;font-weight:600;
+}
+.done:hover{background:var(--green-dk)}
+.done:disabled{background:var(--faint);cursor:default}
+
+.clear{
+  width:100%;background:none;border:none;color:var(--faint);
+  font-size:15px;padding:10px;margin-top:4px;
+}
+.clear:hover{color:var(--clay)}
+
+.alert{
+  background:#FBEDE9;border:1px solid #E5C4BB;color:#7A2E1F;
+  border-radius:var(--r);padding:10px 13px;font-size:15px;margin-bottom:12px;
+}
+.alert:empty{display:none}
+
+/* ── มือถือ: บิลเป็นแถบล่างจอ ── */
+.bar{display:none}
+
+@media (max-width:900px){
+  body{padding-bottom:96px}
+
+  .bill{
+    position:fixed;inset:auto 0 0 0;z-index:20;
+    border-radius:14px 14px 0 0;border-bottom:none;
+    max-height:88vh;overflow-y:auto;
+    box-shadow:0 -6px 28px rgba(23,36,29,.16);
+    transform:translateY(100%);transition:transform .22s ease;
+    padding:18px 18px calc(18px + env(safe-area-inset-bottom));
+  }
+  .bill.open{transform:translateY(0)}
+  .lines{max-height:38vh}
+
+  .handle{
+    display:block;width:38px;height:4px;background:var(--rule);
+    border-radius:2px;margin:-6px auto 14px;
+  }
+
+  .bar{
+    display:flex;position:fixed;inset:auto 0 0 0;z-index:15;
+    align-items:center;gap:12px;
+    background:var(--card);border-top:1px solid var(--rule);
+    padding:12px 18px calc(12px + env(safe-area-inset-bottom));
+  }
+  .bar .info{flex:1;line-height:1.3}
+  .bar .c{font-size:14px;color:var(--faint)}
+  .bar .t{font-size:24px;font-weight:700;letter-spacing:-0.02em}
+  .bar .go{background:var(--green);color:#fff;border:none;padding:13px 22px;font-size:17px;font-weight:600}
+  .bar .go:disabled{background:var(--faint)}
+
+  .veil{
+    display:none;position:fixed;inset:0;z-index:18;
+    background:rgba(23,36,29,.34);
+  }
+  .veil.on{display:block}
+}
+
+@media (min-width:901px){.handle{display:none}}
+
+/* ── หน้าจอยืนยัน ── */
+.ok-screen{
+  display:none;position:fixed;inset:0;z-index:40;
+  background:var(--paper);padding:26px;
+  flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:6px;
+}
+.ok-screen.on{display:flex}
+.ok-screen .lbl{font-size:17px;color:var(--soft)}
+.ok-screen .big{font-size:66px;font-weight:700;color:var(--green-dk);letter-spacing:-0.03em;line-height:1.1}
+.ok-screen .sub{font-size:16px;color:var(--soft);margin-bottom:22px}
+.ok-screen button{background:var(--ink);color:#fff;border:none;padding:14px 34px;font-size:17px;font-weight:600}
+
+@media (prefers-reduced-motion:reduce){
+  .bill{transition:none}
+}
+</style>
+</head>
+
+<body>
+<div class="wrap">
+
+  <header>
+    <div class="brand">
+      <div class="cross" aria-hidden="true"></div>
+      <h1>ขายหน้าร้าน</h1>
+    </div>
+    <a class="link" href="index.html">ดูยอดขายวันนี้</a>
+  </header>
+
+  <div class="grid">
+
+    <!-- เลือกสินค้า -->
+    <section>
+      <input class="search" id="search" type="search" placeholder="พิมพ์ชื่อยาเพื่อค้นหา" autocomplete="off">
+      <div class="tabs" id="tabs"></div>
+      <div class="tiles" id="tiles">
+        <div class="empty">กำลังโหลดรายการสินค้า</div>
+      </div>
+    </section>
+
+    <!-- บิล -->
+    <aside class="bill" id="bill">
+      <div class="handle" id="handle" aria-hidden="true"></div>
+      <h2>บิลลูกค้า</h2>
+      <div class="alert" id="alert" role="alert"></div>
+
+      <ul class="lines" id="lines">
+        <li class="empty">แตะสินค้าทางซ้ายเพื่อเพิ่มลงบิล</li>
+      </ul>
+
+      <div class="sum">
+        <div class="srow">
+          <span>รวมก่อนหักส่วนลด</span>
+          <span class="num" id="subtotal">฿0</span>
+        </div>
+        <div class="srow">
+          <label for="discount">ส่วนลด (บาท)</label>
+          <input class="disc num" id="discount" type="number" inputmode="decimal" min="0" step="1" value="0">
+        </div>
+        <div class="srow big">
+          <span class="k">ยอดที่ต้องชำระ</span>
+          <span class="v num" id="total">฿0</span>
+        </div>
+      </div>
+
+      <div class="pay">
+        <label for="cash" style="display:block;font-size:15px;color:var(--soft);margin-bottom:6px">รับเงินมา</label>
+        <div class="cash-row">
+          <input class="cash num" id="cash" type="number" inputmode="decimal" min="0" step="1" placeholder="0">
+        </div>
+        <div class="notes" id="notes"></div>
+
+        <div class="change" id="changeBox" hidden>
+          <span class="k" id="changeLabel">เงินทอน</span>
+          <span class="v num" id="change">฿0</span>
+        </div>
+
+        <button class="done" id="doneBtn" disabled>บันทึกการขาย</button>
+        <button class="clear" id="clearBtn" type="button">ล้างบิลทั้งหมด</button>
+      </div>
+    </aside>
+  </div>
+</div>
+
+<!-- แถบล่างจอสำหรับมือถือ -->
+<div class="bar" id="bar">
+  <div class="info">
+    <div class="c" id="barCount">ยังไม่มีรายการ</div>
+    <div class="t num" id="barTotal">฿0</div>
+  </div>
+  <button class="go" id="barGo" disabled>ดูบิล</button>
+</div>
+
+<div class="veil" id="veil"></div>
+
+<!-- หน้าจอยืนยันหลังบันทึก -->
+<div class="ok-screen" id="okScreen">
+  <div class="lbl">เงินทอน</div>
+  <div class="big num" id="okChange">฿0</div>
+  <div class="sub" id="okSummary"></div>
+  <button id="okBtn" type="button">เริ่มบิลใหม่</button>
+</div>
+
+<script>
+/* ═══════════════════════════════════════════
+   ใส่ URL เซิร์ฟเวอร์ Railway ให้ตรงกับหน้า index.html
+   ═══════════════════════════════════════════ */
+const API_BASE = "https://pharmacy-server-production-112d.up.railway.app";
+
+/* ใช้ชั่วคราวถ้าโหลดรายการจากชีตไม่ได้ */
+const FALLBACK = [
+  { name: "พาราเซตามอล 500 มก.", price: 12, category: "ยาสามัญ" },
+  { name: "ยาแก้แพ้ CPM", price: 15, category: "ยาสามัญ" },
+  { name: "ผงเกลือแร่ ORS", price: 12, category: "ยาสามัญ" },
+  { name: "ยาธาตุน้ำขาว", price: 25, category: "ยาสามัญ" },
+  { name: "พลาสเตอร์ปิดแผล", price: 20, category: "เวชภัณฑ์" },
+  { name: "แอลกอฮอล์ 70%", price: 30, category: "เวชภัณฑ์" },
+  { name: "หน้ากากอนามัย", price: 25, category: "เวชภัณฑ์" },
+  { name: "วิตามินซี", price: 60, category: "อาหารเสริม" },
+];
+
+const CASH_NOTES = [20, 50, 100, 500, 1000];
+
+const $ = (id) => document.getElementById(id);
+const baht = (n) => "฿" + Number(n || 0).toLocaleString("th-TH", { maximumFractionDigits: 2 });
+
+let items = [];        // รายการสินค้าทั้งหมด
+let cart = [];         // { name, price, qty }
+let activeCat = "ทั้งหมด";
+let query = "";
+
+function alertMsg(m) { $("alert").textContent = m || ""; }
+
+async function api(path, options) {
+  const res = await fetch(API_BASE + path, {
+    headers: { "Content-Type": "application/json" },
+    ...options,
+  });
+  const data = await res.json().catch(() => ({ ok: false, error: "เซิร์ฟเวอร์ตอบกลับผิดรูปแบบ" }));
+  if (!res.ok || data.ok === false) throw new Error(data.error || "เชื่อมต่อไม่สำเร็จ");
+  return data;
+}
+
+/* ───── ตะกร้า ───── */
+
+function inCart(name) {
+  return cart.find((c) => c.name === name);
+}
+
+function addItem(name, price) {
+  const found = inCart(name);
+  if (found) found.qty += 1;
+  else cart.push({ name, price, qty: 1 });
+  render();
+}
+
+function changeQty(name, delta) {
+  const found = inCart(name);
+  if (!found) return;
+  found.qty += delta;
+  if (found.qty <= 0) cart = cart.filter((c) => c.name !== name);
+  render();
+}
+
+function removeItem(name) {
+  cart = cart.filter((c) => c.name !== name);
+  render();
+}
+
+function subtotal() {
+  return cart.reduce((sum, c) => sum + c.price * c.qty, 0);
+}
+
+function total() {
+  const d = Number($("discount").value) || 0;
+  return Math.max(0, Math.round((subtotal() - d) * 100) / 100);
+}
+
+/* ───── วาดหน้าจอ ───── */
+
+function renderTabs() {
+  const cats = ["ทั้งหมด", ...new Set(items.map((i) => i.category))];
+  $("tabs").innerHTML = "";
+
+  cats.forEach((c) => {
+    const b = document.createElement("button");
+    b.className = "tab";
+    b.type = "button";
+    b.textContent = c;
+    b.setAttribute("aria-pressed", String(c === activeCat));
+    b.onclick = () => { activeCat = c; renderTabs(); renderTiles(); };
+    $("tabs").appendChild(b);
+  });
+}
+
+function renderTiles() {
+  const box = $("tiles");
+  box.innerHTML = "";
+
+  const shown = items.filter((i) => {
+    const okCat = activeCat === "ทั้งหมด" || i.category === activeCat;
+    const okQuery = !query || i.name.toLowerCase().includes(query);
+    return okCat && okQuery;
+  });
+
+  shown.forEach((i) => {
+    const line = inCart(i.name);
+    const b = document.createElement("button");
+    b.className = "tile" + (line ? " on" : "");
+    b.type = "button";
+    b.innerHTML = `<span class="n">${i.name}</span><span class="p num">${baht(i.price)}</span>` +
+      (line ? `<span class="badge num">${line.qty}</span>` : "");
+    b.onclick = () => addItem(i.name, i.price);
+    box.appendChild(b);
+  });
+
+  // ปุ่มสำหรับสินค้าที่ไม่มีในรายการ
+  const c = document.createElement("button");
+  c.className = "tile custom";
+  c.type = "button";
+  c.innerHTML = `<span class="n">+ สินค้าอื่น</span><span class="p">พิมพ์ชื่อและราคาเอง</span>`;
+  c.onclick = addCustom;
+  box.appendChild(c);
+
+  if (!shown.length && query) {
+    const e = document.createElement("div");
+    e.className = "empty";
+    e.textContent = `ไม่พบ "${query}" ในรายการ`;
+    box.prepend(e);
+  }
+}
+
+function addCustom() {
+  const name = prompt("ชื่อสินค้า");
+  if (!name || !name.trim()) return;
+
+  const priceText = prompt(`ราคาต่อหน่วยของ "${name.trim()}" (บาท)`);
+  const price = Number(priceText);
+  if (!(price >= 0)) return alertMsg("ราคาไม่ถูกต้อง ไม่ได้เพิ่มรายการ");
+
+  addItem(name.trim(), price);
+}
+
+function renderCart() {
+  const list = $("lines");
+  list.innerHTML = "";
+
+  if (!cart.length) {
+    list.innerHTML = '<li class="empty">แตะสินค้าเพื่อเพิ่มลงบิล</li>';
+    return;
+  }
+
+  cart.forEach((c) => {
+    const li = document.createElement("li");
+    li.className = "line";
+    li.innerHTML = `
+      <span class="n">${c.name}</span>
+      <span class="a num">${baht(c.price * c.qty)}</span>
+      <span class="ctl">
+        <button class="step" type="button" aria-label="ลดจำนวน ${c.name}">−</button>
+        <span class="qty num">${c.qty}</span>
+        <button class="step" type="button" aria-label="เพิ่มจำนวน ${c.name}">+</button>
+        <span class="num" style="margin-left:4px">× ${baht(c.price)}</span>
+        <button class="rm" type="button" aria-label="ลบ ${c.name}">×</button>
+      </span>`;
+
+    const [minus, plus] = li.querySelectorAll(".step");
+    minus.onclick = () => changeQty(c.name, -1);
+    plus.onclick = () => changeQty(c.name, 1);
+    li.querySelector(".rm").onclick = () => removeItem(c.name);
+    list.appendChild(li);
+  });
+}
+
+function renderMoney() {
+  const sub = subtotal();
+  const due = total();
+  const cash = Number($("cash").value);
+
+  $("subtotal").textContent = baht(sub);
+  $("total").textContent = baht(due);
+  $("barTotal").textContent = baht(due);
+  $("barCount").textContent = cart.length
+    ? `${cart.reduce((s, c) => s + c.qty, 0)} ชิ้น · ${cart.length} รายการ`
+    : "ยังไม่มีรายการ";
+
+  const box = $("changeBox");
+
+  if (!$("cash").value || !cart.length) {
+    box.hidden = true;
+  } else {
+    box.hidden = false;
+    const diff = Math.round((cash - due) * 100) / 100;
+    const short = diff < 0;
+    box.classList.toggle("short", short);
+    $("changeLabel").textContent = short ? "ยังขาดอีก" : "เงินทอน";
+    $("change").textContent = baht(Math.abs(diff));
+  }
+
+  $("doneBtn").disabled = cart.length === 0;
+  $("barGo").disabled = cart.length === 0;
+}
+
+function render() {
+  renderTiles();
+  renderCart();
+  renderMoney();
+}
+
+/* ───── ปุ่มธนบัตร ───── */
+function renderNotes() {
+  $("notes").innerHTML = "";
+
+  const exact = document.createElement("button");
+  exact.className = "note-btn";
+  exact.type = "button";
+  exact.textContent = "พอดี";
+  exact.onclick = () => { $("cash").value = total(); renderMoney(); };
+  $("notes").appendChild(exact);
+
+  CASH_NOTES.forEach((n) => {
+    const b = document.createElement("button");
+    b.className = "note-btn num";
+    b.type = "button";
+    b.textContent = "฿" + n;
+    b.onclick = () => {
+      $("cash").value = (Number($("cash").value) || 0) + n;
+      renderMoney();
+    };
+    $("notes").appendChild(b);
+  });
+}
+
+/* ───── บันทึก ───── */
+async function submitBill() {
+  if (!cart.length) return;
+
+  const due = total();
+  const sub = subtotal();
+  const cash = Number($("cash").value) || 0;
+  const change = cash > 0 ? cash - due : 0;
+  const discount = Number($("discount").value) || 0;
+
+  const btn = $("doneBtn");
+  btn.disabled = true;
+  btn.textContent = "กำลังบันทึก";
+
+  // ราคาสินค้าบันทึกตามจริง ส่วนลดแยกเป็นอีกแถวหนึ่ง
+  // ยอดรวมในชีตจะตรงกับเงินที่เก็บจริงพอดี ไม่มีเศษสตางค์คลาดเคลื่อน
+  const payload = cart.map((c) => ({
+    product: c.name,
+    qty: c.qty,
+    unitPrice: c.price,
+  }));
+
+  if (discount > 0) {
+    payload.push({ product: "ส่วนลด", qty: 1, unitPrice: -Math.min(discount, sub) });
+  }
+
+  try {
+    const res = await api("/api/bill", {
+      method: "POST",
+      body: JSON.stringify({ items: payload }),
+    });
+
+    $("okChange").textContent = baht(Math.max(0, change));
+    $("okSummary").textContent =
+      `รับ ${baht(cash)} · ยอดบิล ${baht(due)} · ${res.count} รายการ · บิล ${res.billId}`;
+    $("okScreen").classList.add("on");
+
+    resetBill();
+    alertMsg("");
+  } catch (err) {
+    alertMsg("บันทึกไม่สำเร็จ: " + err.message + " — บิลยังอยู่ ลองกดใหม่อีกครั้ง");
+  } finally {
+    btn.disabled = cart.length === 0;
+    btn.textContent = "บันทึกการขาย";
+  }
+}
+
+function resetBill() {
+  cart = [];
+  $("cash").value = "";
+  $("discount").value = 0;
+  closeBill();
+  render();
+}
+
+/* ───── บิลแบบแถบล่างจอ ───── */
+function openBill() {
+  $("bill").classList.add("open");
+  $("veil").classList.add("on");
+}
+function closeBill() {
+  $("bill").classList.remove("open");
+  $("veil").classList.remove("on");
+}
+
+$("barGo").onclick = openBill;
+$("veil").onclick = closeBill;
+$("handle").onclick = closeBill;
+
+document.addEventListener("keydown", (e) => {
+  if (e.key === "Escape") closeBill();
+});
+
+/* ───── เชื่อมเหตุการณ์ ───── */
+$("search").addEventListener("input", (e) => {
+  query = e.target.value.trim().toLowerCase();
+  renderTiles();
+});
+
+$("discount").addEventListener("input", renderMoney);
+$("cash").addEventListener("input", renderMoney);
+$("doneBtn").addEventListener("click", submitBill);
+
+$("clearBtn").addEventListener("click", () => {
+  if (!cart.length) return;
+  if (confirm("ล้างรายการทั้งหมดในบิลนี้")) resetBill();
+});
+
+$("okBtn").addEventListener("click", () => $("okScreen").classList.remove("on"));
+
+/* ───── โหลดรายการสินค้า ───── */
+async function loadCatalog() {
+  try {
+    const data = await api("/api/catalog");
+    items = data.items.length ? data.items : FALLBACK;
+  } catch (err) {
+    items = FALLBACK;
+    alertMsg("โหลดรายการจากชีตไม่ได้ กำลังใช้รายการสำรอง — " + err.message);
+  }
+  renderTabs();
+  render();
+}
+
+renderNotes();
+loadCatalog();
+</script>
+</body>
+</html>
